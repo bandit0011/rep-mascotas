@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Dog, Cat, Fish, Heart, Search, Plus, Trash2, Edit, User, Calendar, Activity } from 'lucide-react';
+import { Dog, Cat, Fish, Bird, Heart, Search, Plus, Trash2, Edit, User, Calendar, Activity } from 'lucide-react';
 
 // --- CONFIGURACIÓN INTELIGENTE ---
 // Intentamos usar import.meta.env solo si está disponible (para evitar errores en entornos antiguos)
@@ -14,6 +14,16 @@ try {
     // Si falla el acceso a import.meta, nos quedamos con localhost silenciosamente
     console.log("Usando configuración local por defecto");
 }
+
+const getIconoEspecie = (especie) => {
+  switch (especie) {
+    case 'Perro': return <Dog className="text-orange-500" size={20} />;
+    case 'Gato': return <Cat className="text-indigo-500" size={20} />;
+    case 'Pez': return <Fish className="text-blue-500" size={20} />;
+    case 'Ave': return <Bird className="text-yellow-500" size={20} />;
+    default: return <Heart className="text-gray-400" size={20} />;
+  }
+};
 
 export default function App() {
   const [mascotas, setMascotas] = useState([]);
@@ -214,7 +224,16 @@ export default function App() {
                             {mascotas.map((m) => (
                                 <tr key={m.id} className="hover:bg-slate-50">
                                     <td className="p-4 text-slate-400 font-mono">#{m.id}</td>
-                                    <td className="p-4 font-bold text-slate-800">{m.nombre} <span className="text-xs font-normal px-2 bg-slate-200 rounded-full ml-2">{m.especie}</span></td>
+                                    <td className="p-4 font-bold text-slate-800 flex items-center gap-2">
+                                      {/* Aquí llamamos a la función para mostrar el ícono */}
+                                      <div className="p-2 bg-slate-100 rounded-full">
+                                        {getIconoEspecie(m.especie)}
+                                      </div>
+                                      <div>
+                                        {m.nombre}
+                                        <p className="text-xs font-normal text-slate-500">{m.especie}</p>
+                                      </div>
+                                    </td>
                                     <td className="p-4">{m.edad} años</td>
                                     <td className="p-4">{m.dueno}</td>
                                     <td className="p-4 flex justify-center gap-2">
