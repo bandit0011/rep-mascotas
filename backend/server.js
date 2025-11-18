@@ -34,7 +34,10 @@ app.get('/mascotas', (req, res) => {
     let params = [];
     if (especie) { sql += ' WHERE especie = ?'; params.push(especie); }
     db.query(sql, params, (err, results) => {
-        if (err) return res.status(500).json({ error: err.message });
+        if (err) {
+            console.error("❌ ERROR DETALLADO:", err); // <--- AGREGA ESTA LÍNEA
+            return res.status(500).json({ error: err.message });
+        }
         res.json(results);
     });
 });
